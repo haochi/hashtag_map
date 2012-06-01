@@ -1,40 +1,40 @@
-var TwitterSearch = function(query){
-  var page = 1
-    , rpp = 100;
-  this.initial_fetch = function(callback){
-    next(function(res){
-      callback(res);
-    });
-  }
-  function next(callback){
-    $.getJSON("http://search.twitter.com/search.json?callback=?", {
-      q: query,
-      rpp: rpp,
-      geocode: "37.0625,-95.677068,5000mi",
-      page: page
-    }, function(res){
-      console.log(res);
-      if("error" in res){
-        $(".progress").remove();
-        return;
-      }
-      since_id = res.max_id_str;  
-      if(res.results.length !== 0){
-        page++;
-        $(".bar").css("width", ""+(Math.min(page, 20-1)*5 + Math.min(Math.sqrt(page), 5))+"%");
-        setTimeout(function(){
-          next(callback);
-        }, 2000);
-      }
-      callback(res);
-    });
-  }
-}
-function tofu(a,c){return a.replace(/{ *([^} ]+) *}/g,function(b,a){b=c;a.replace(/[^.]+/g,function(a){b=b[a]});return b})}
-
 $(function(){
   var map, info_window; 
+  var TwitterSearch = function(query){
+    var page = 1
+      , rpp = 100;
+    this.initial_fetch = function(callback){
+      next(function(res){
+        callback(res);
+      });
+    }
+    function next(callback){
+      $.getJSON("http://search.twitter.com/search.json?callback=?", {
+        q: query,
+        rpp: rpp,
+        geocode: "37.0625,-95.677068,5000mi",
+        page: page
+      }, function(res){
+        console.log(res);
+        if("error" in res){
+          $(".progress").remove();
+          location.hash = "map";
+          return;
+        }
+        since_id = res.max_id_str;  
+        if(res.results.length !== 0){
+          page++;
+          $(".bar").css("width", ""+(Math.min(page, 20-1)*5 + Math.min(Math.sqrt(page), 5))+"%");
+          setTimeout(function(){
+            next(callback);
+          }, 2000);
+        }
+        callback(res);
+      });
+    }
+  }
 
+  $("#map").height($(window).height());
   map = new google.maps.Map(document.getElementById("map"), {
     center: new google.maps.LatLng(39.828175, -98.5795),
     zoom: 4,
@@ -63,4 +63,6 @@ $(function(){
       });
     });
   });
+
+  function tofu(a,c){return a.replace(/{ *([^} ]+) *}/g,function(b,a){b=c;a.replace(/[^.]+/g,function(a){b=b[a]});return b})}
 });
