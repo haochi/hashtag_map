@@ -34,9 +34,9 @@ $(function(){
     }
   }
 
-  $(window).resize(function(){
+  $(window).on("resize orientationchange", function(){
     $("#map").height($(window).height());
-  }).resize();
+  }).trigger("resize").trigger("orientationchange");
   map = new google.maps.Map(document.getElementById("map"), {
     center: new google.maps.LatLng(39.828175, -98.5795),
     zoom: 4,
