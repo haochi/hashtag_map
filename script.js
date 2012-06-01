@@ -34,7 +34,9 @@ $(function(){
     }
   }
 
-  $("#map").height($(window).height());
+  $(window).resize(function(){
+    $("#map").height($(window).height());
+  }).resize();
   map = new google.maps.Map(document.getElementById("map"), {
     center: new google.maps.LatLng(39.828175, -98.5795),
     zoom: 4,
