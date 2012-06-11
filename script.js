@@ -60,8 +60,7 @@ $(function(){
   info_window = new google.maps.InfoWindow();
   info_window.setMap(map);
 
-  var ts = new TwitterSearch("#debate2012");
-  //var ts = new TwitterSearch("#dustballrally");
+  var ts = new TwitterSearch("#dustballrally");
   ts.initial_fetch(function(res){
     $.each(res.results, function(index, tweet){
       if(tweet.from_user in users && user){
