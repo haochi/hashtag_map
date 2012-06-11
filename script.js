@@ -1,5 +1,5 @@
 $(function(){
-  var map, info_window, hash, show_non_geo; 
+  var map, info_window, hash, show_non_geo, users = {}, user;
   hash = window.location.search.substring(1);
 
   var TwitterSearch = function(query){
@@ -13,6 +13,7 @@ $(function(){
     }else if(hash === "geotagged" || hash === ""){
       $("#geotagged").addClass("active");
     }else{
+      user = true;
       $("#geotagged").parent().append($("<li>").addClass("active").html($("<a>").text("Tweets by @"+hash)));
       query += " from:"+hash;
     }
@@ -59,9 +60,16 @@ $(function(){
   info_window = new google.maps.InfoWindow();
   info_window.setMap(map);
 
-  var ts = new TwitterSearch("#debate2012");
+  var ts = new TwitterSearch("#dustballrally");
   ts.initial_fetch(function(res){
     $.each(res.results, function(index, tweet){
+      if(tweet.from_user in users && user){
+        if(users[tweet.from_user] === 3) return;
+        users[tweet.from_user]++;
+      }else{
+        users[tweet.from_user] = 0;
+      }
+
       if(!tweet.geo){
         if(show_non_geo){
           var li = $("<li>").css("background-image", "url("+tweet.profile_image_url+")").html(tofu("<span>@{ from_user }</span>: <a href='http://twitter.com/{ from_user }/status/{ id_str }'>{ text }</a>", tweet));

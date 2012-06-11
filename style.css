@@ -18,6 +18,9 @@ body{
 #map img{
   max-width: none;
 }
+.tweet{
+  min-height: 30px;
+}
 #tweets li{
   background-repeat: no-repeat;
   background-position: left top;
