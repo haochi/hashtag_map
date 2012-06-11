@@ -14,9 +14,15 @@
           %h1 Dustball Rally
         .row
           .span12
+            %ul.nav.nav-pills
+              %li#geotagged
+                %a{:href => "?geotagged"} Geotagged Tweets
+              %li#all
+                %a{:href => "?all"} All Tweets
             .progress.progress-striped.active
               .bar
             #map
+            %ul#tweets.unstyled
     %script{:src => "http://maps.googleapis.com/maps/api/js?sensor=false", :type => "text/javascript"}
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js", :type => "text/javascript"}
     %script{:src => "script.js", :type => "text/javascript"}
